@@ -1,4 +1,3 @@
-import Analizador_De_Clases_Y_metodos as LOC
 
 class LectorArchivos:
     """Lee las líneas de un archivo omitiendo espacios en blanco."""
@@ -59,14 +58,13 @@ class ComparadorLineas:
         return diferencias
 
     def comparar_lineas(self):
-        """Detecta líneas añadidas, eliminadas, movidas y con cambios pequeños."""
+        """Detecta líneas añadidas, eliminadas y con cambios pequeños."""
         lcs = self._lcs()
 
         lineas_sin_cambios = lcs
         lineas_añadidas = [linea for linea in self.lineas_modificado if linea not in lcs]
         lineas_eliminadas = [linea for linea in self.lineas_original if linea not in lcs]
-        lineas_movidas = [linea for linea in lcs if self.lineas_original.index(linea) != self.lineas_modificado.index(linea)]
-
+        
         # Detectar cambios pequeños
         lineas_con_cambios_pequeños = []
         for linea_modificada in lineas_añadidas[:]:
@@ -78,13 +76,12 @@ class ComparadorLineas:
                     lineas_eliminadas.remove(linea_original)
                     break
 
-        return lineas_añadidas, lineas_eliminadas, lineas_sin_cambios, lineas_movidas, lineas_con_cambios_pequeños
+        return lineas_añadidas, lineas_eliminadas, lineas_sin_cambios, lineas_con_cambios_pequeños
 
 class ReportadorCambios:
-    def __init__(self, lineas_añadidas, lineas_eliminadas, lineas_movidas, lineas_cambios_pequeños):
+    def __init__(self, lineas_añadidas, lineas_eliminadas, lineas_cambios_pequeños):
         self.lineas_añadidas = lineas_añadidas
         self.lineas_eliminadas = lineas_eliminadas
-        self.lineas_movidas = lineas_movidas
         self.lineas_cambios_pequeños = lineas_cambios_pequeños
 
     def _formatear_cambios_pequeños(self, original, modificado, diferencias):
@@ -172,8 +169,6 @@ class ReportadorCambios:
                     )
                     diferencias_formateadas = self._formatear_cambios_pequeños(original, modificado, diferencias)
                     etiqueta = f"# Cambios: {diferencias_formateadas}"
-                elif linea in self.lineas_movidas:
-                    etiqueta = "# Línea movida"
                 archivo.write(self._formatear_linea(linea, etiqueta) + "\n")
 
 
@@ -192,33 +187,25 @@ class ComparadorArchivos:
         lineas_modificado = lector_modificado.leer_lineas()
 
         comparador = ComparadorLineas(lineas_original, lineas_modificado)
+        
         (lineas_añadidas, lineas_eliminadas, 
-        lineas_sin_cambios, lineas_movidas, 
-        lineas_con_cambios_pequeños) = comparador.comparar_lineas()
+        lineas_sin_cambios,lineas_con_cambios_pequeños) = comparador.comparar_lineas()
 
         print(f"Líneas añadidas: {len(lineas_añadidas)}")
         print(f"Líneas eliminadas: {len(lineas_eliminadas)}")
         print(f"Líneas sin cambios: {len(lineas_sin_cambios)}")
-        print(f"Líneas movidas: {len(lineas_movidas)}")
         print(f"Líneas con cambios pequeños: {len(lineas_con_cambios_pequeños)}")
 
-        reportador = ReportadorCambios(lineas_añadidas, lineas_eliminadas, lineas_movidas, lineas_con_cambios_pequeños)
+        reportador = ReportadorCambios(lineas_añadidas, lineas_eliminadas, lineas_con_cambios_pequeños)
         reportador.reportar_cambios(self.archivo_original, self.archivo_modificado)
 
 
 # Ejecución del programa con los archivos proporcionados
 if __name__ == "__main__":
-    ruta_archivo_original = "./Test/test_modificado.py"
-    ruta_archivo_modificado = "./Test/test_original.py"
-
-    analizador1 = LOC.AnalizadorEstructural(ruta_archivo_original)
-    analizador2 = LOC.AnalizadorEstructural(ruta_archivo_modificado)
-    analizador1.verificar_poo()
-    analizador2.verificar_poo()
+    ruta_archivo_original = "./Caso_4/Movidas_original.py"
+    ruta_archivo_modificado = "./Caso_4/Movidas_Modificado.py"
 
     comparador = ComparadorArchivos(ruta_archivo_original, ruta_archivo_modificado)
     comparador.comparar_archivos()
-    analizador1.informe()  
-    analizador2.informe()
 
 
