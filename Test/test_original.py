@@ -7,6 +7,13 @@ class clase:
     def mostrar_mensaje(mensaje):
         print(f"Mensaje: {mensaje}")
 class test:
-    print("Hola mundo!")  
-    resultado = suma(5, 6)
-    print(resultado)
+    for i in range(5):
+        if i == 2:
+            continue  
+        print(i)
+    
+        for y in range(6):
+            if y == 2:
+                continue  
+            print(y)
+

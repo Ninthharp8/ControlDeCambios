@@ -131,6 +131,6 @@ class AnalizadorEstructural(AnalizadorDeCodigo):
 
 
 if __name__ == "__main__":
-    ruta_del_archivo = './test_Estructuras_Completas.py'
+    ruta_del_archivo = './Test/test_archivo_integral.py'
     analizador = AnalizadorEstructural(ruta_del_archivo)
     analizador.informe()        

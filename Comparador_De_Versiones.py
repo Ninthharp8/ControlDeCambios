@@ -1,3 +1,5 @@
+import Analizador_De_Clases_Y_metodos as LOC
+
 class LectorArchivos:
     """Lee las líneas de un archivo omitiendo espacios en blanco."""
     def __init__(self, ruta_archivo):
@@ -206,8 +208,17 @@ class ComparadorArchivos:
 
 # Ejecución del programa con los archivos proporcionados
 if __name__ == "__main__":
-    ruta_archivo_original = "./Test/version1.py"
-    ruta_archivo_modificado = "./Test/version2.py"
+    ruta_archivo_original = "./Test/test_modificado.py"
+    ruta_archivo_modificado = "./Test/test_original.py"
+
+    analizador1 = LOC.AnalizadorEstructural(ruta_archivo_original)
+    analizador2 = LOC.AnalizadorEstructural(ruta_archivo_modificado)
+    analizador1.verificar_poo()
+    analizador2.verificar_poo()
 
     comparador = ComparadorArchivos(ruta_archivo_original, ruta_archivo_modificado)
     comparador.comparar_archivos()
+    analizador1.informe()  
+    analizador2.informe()
+
+

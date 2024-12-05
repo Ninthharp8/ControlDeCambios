@@ -10,5 +10,6 @@ class clase:
 class test:
     resultado = sumar(5, 6) 
     print(resultado)
+    print(resultado)
     print("Hola a todos!")  
     print("¡Nueva línea añadida!")
