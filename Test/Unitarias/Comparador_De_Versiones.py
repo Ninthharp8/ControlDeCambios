@@ -64,8 +64,6 @@ class ComparadorLineas:
         lineas_sin_cambios = lcs
         lineas_añadidas = [linea for linea in self.lineas_modificado if linea not in lcs]
         lineas_eliminadas = [linea for linea in self.lineas_original if linea not in lcs]
-        #lineas_movidas = [linea for linea in lcs if self.lineas_original.index(linea) != self.lineas_modificado.index(linea)]
-
         # Detectar cambios pequeños
         lineas_con_cambios_pequeños = []
         for linea_modificada in lineas_añadidas[:]:
