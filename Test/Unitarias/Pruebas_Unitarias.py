@@ -109,7 +109,7 @@ class TestComparadorArchivos:
         )
     def test_caso4_linea_movida(self):
         """
-        Prueba que se detecte correctamente una línea borrada.
+        Prueba que se detecte correctamente una línea movida.
         """
         print("prueba para detectar lineas movidas")
         self.probar_comparacion(
@@ -124,7 +124,7 @@ class TestComparadorArchivos:
         )
     def test_caso5_cambios_pequeños(self):
         """
-        Prueba que se detecte correctamente una línea borrada.
+        Prueba que se detecte correctamente una cambios pequeños
         """
         print("prueba para detectar lineas movidas")
         self.probar_comparacion(
@@ -145,7 +145,6 @@ class TestComparadorArchivos:
         print("prueba para verificar que se formatea el codigo y "
               "se cuentan todos los casos anteriores ")
         
-        # Aquí asegúrate de tener los archivos que deseas verificar
         ruta_original = "./Caso_6/Formateo_Original.py"
         ruta_modificado="./Caso_6/Formateo_Modificado.py"
        
