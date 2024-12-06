@@ -1,7 +1,7 @@
 """
 Programa: Sistema Comparador de Versiones
 Autor: Equipo 6
-Fecha: 20 de noviembre de 2024
+Fecha: 26 de noviembre de 2024
 
 Descripción:
     Esta aplicación permite comparar dos versiones de archivos Python, analizando
