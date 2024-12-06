@@ -17,8 +17,8 @@ class AnalizadorEstructural(AnalizadorDeCodigo):
         self.ruta_del_archivo = ruta_del_archivo
         self.clases = {}
         self.metodos_fuera_clases = []
-        self.codigo_fuera_clases = []  # Almacena líneas de código fuera de clases
-        super().__init__(ruta_del_archivo) # Instancia del analizador de líneas
+        self.codigo_fuera_clases = []  
+        super().__init__(ruta_del_archivo) 
 
     def analizar_clases_y_metodos(self):
         """
@@ -27,8 +27,8 @@ class AnalizadorEstructural(AnalizadorDeCodigo):
         Delegamos el conteo de líneas al AnalizadorDeCodigo.
         """
         comentario_bloque = False
-        clase_actual = None  # Almacena la clase en la que estamos actualmente
-        indentacion_clase = None  # Almacena la indentación de la clase actual
+        clase_actual = None  
+        indentacion_clase = None  
 
         try:
             with open(self.ruta_del_archivo, 'r', encoding='utf-8') as archivo:
@@ -76,7 +76,7 @@ class AnalizadorEstructural(AnalizadorDeCodigo):
                         if indentacion_actual > indentacion_clase:
                             self.clases[clase_actual]['lineas'] += 1
                         else:
-                            clase_actual = None  # Salimos del contexto de la clase
+                            clase_actual = None  
 
         except FileNotFoundError as e:
             print(f"Archivo no encontrado: {e}")

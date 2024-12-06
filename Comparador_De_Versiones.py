@@ -1,28 +1,60 @@
-
 class LectorArchivos:
-    """Lee las líneas de un archivo omitiendo espacios en blanco."""
+    """
+    Clase para leer las líneas de un archivo omitiendo aquellas que están vacías.
+
+    Attributes:
+        ruta_archivo (str): Ruta al archivo a procesar.
+    """
     def __init__(self, ruta_archivo):
+        """
+        Inicializa la clase con la ruta del archivo.
+
+        Args:
+            ruta_archivo (str): Ruta al archivo que se va a leer.
+        """
         self.ruta_archivo = ruta_archivo
 
     def leer_lineas(self):
-        """Lee el archivo, omite líneas en blanco y devuelve las líneas."""
+        """
+        Lee todas las líneas de un archivo, omitiendo aquellas que están en blanco.
+
+        Returns:
+            list: Una lista con las líneas no vacías del archivo.
+        """
         with open(self.ruta_archivo, 'r', encoding='utf-8') as archivo:
             lineas = [linea.rstrip() for linea in archivo if linea.strip()]
         return lineas
 
 
 class ComparadorLineas:
-    """Compara las líneas de dos archivos y detecta cambios."""
+    """
+    Clase para comparar las líneas de dos listas de texto y detectar cambios.
+
+    Attributes:
+        lineas_original (list): Líneas del archivo original.
+        lineas_modificado (list): Líneas del archivo modificado.
+    """
     def __init__(self, lineas_original, lineas_modificado):
+        """
+        Inicializa la clase con las líneas de los archivos original y modificado.
+
+        Args:
+            lineas_original (list): Líneas del archivo original.
+            lineas_modificado (list): Líneas del archivo modificado.
+        """
         self.lineas_original = lineas_original
         self.lineas_modificado = lineas_modificado
 
     def _lcs(self):
-        """Encuentra la subsecuencia común más larga (LCS) entre las líneas."""
+        """
+        Calcula la subsecuencia común más larga (LCS) entre dos listas de líneas.
+
+        Returns:
+            list: La subsecuencia común más larga entre las dos listas.
+        """
         m, n = len(self.lineas_original), len(self.lineas_modificado)
         dp = [[0] * (n + 1) for _ in range(m + 1)]
 
-        # Llenar la tabla LCS
         for i in range(1, m + 1):
             for j in range(1, n + 1):
                 if self.lineas_original[i - 1] == self.lineas_modificado[j - 1]:
@@ -30,7 +62,6 @@ class ComparadorLineas:
                 else:
                     dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
 
-        # Reconstruir la subsecuencia común
         i, j = m, n
         lcs = []
         while i > 0 and j > 0:
@@ -46,7 +77,16 @@ class ComparadorLineas:
         return lcs[::-1]
 
     def detectar_cambios_pequeños(self, linea1, linea2):
-        """Compara dos líneas y detecta diferencias carácter por carácter."""
+        """
+        Detecta diferencias carácter por carácter entre dos líneas.
+
+        Args:
+            linea1 (str): Línea del archivo original.
+            linea2 (str): Línea del archivo modificado.
+
+        Returns:
+            list: Lista de tuplas con diferencias (carácter_original, carácter_modificado).
+        """
         diferencias = []
         for c1, c2 in zip(linea1, linea2):
             if c1 != c2:
@@ -58,14 +98,22 @@ class ComparadorLineas:
         return diferencias
 
     def comparar_lineas(self):
-        """Detecta líneas añadidas, eliminadas y con cambios pequeños."""
+        """
+        Compara las líneas de los dos archivos y categoriza los cambios.
+
+        Returns:
+            tuple: Contiene cuatro elementos:
+                - Líneas añadidas.
+                - Líneas eliminadas.
+                - Líneas sin cambios.
+                - Líneas con cambios pequeños (detalladas).
+        """
         lcs = self._lcs()
 
         lineas_sin_cambios = lcs
         lineas_añadidas = [linea for linea in self.lineas_modificado if linea not in lcs]
         lineas_eliminadas = [linea for linea in self.lineas_original if linea not in lcs]
-        
-        # Detectar cambios pequeños
+
         lineas_con_cambios_pequeños = []
         for linea_modificada in lineas_añadidas[:]:
             for linea_original in lineas_eliminadas[:]:
@@ -76,76 +124,111 @@ class ComparadorLineas:
                     lineas_eliminadas.remove(linea_original)
                     break
 
-        return lineas_añadidas, lineas_eliminadas, lineas_sin_cambios, lineas_con_cambios_pequeños
+        return (lineas_añadidas, lineas_eliminadas, lineas_sin_cambios, lineas_con_cambios_pequeños)
+
 
 class ReportadorCambios:
+    """
+    Clase para generar reportes de los cambios detectados entre dos archivos.
+
+    Attributes:
+        lineas_añadidas (list): Líneas añadidas en el archivo modificado.
+        lineas_eliminadas (list): Líneas eliminadas del archivo original.
+        lineas_cambios_pequeños (list): Líneas con cambios menores detectados.
+    """
     def __init__(self, lineas_añadidas, lineas_eliminadas, lineas_cambios_pequeños):
+        """
+        Inicializa el reportador con los cambios detectados.
+
+        Args:
+            lineas_añadidas (list): Líneas añadidas en el archivo modificado.
+            lineas_eliminadas (list): Líneas eliminadas del archivo original.
+            lineas_cambios_pequeños (list): Líneas con cambios menores detectados.
+        """
         self.lineas_añadidas = lineas_añadidas
         self.lineas_eliminadas = lineas_eliminadas
         self.lineas_cambios_pequeños = lineas_cambios_pequeños
 
     def _formatear_cambios_pequeños(self, original, modificado, diferencias):
-        """Formatea y muestra las diferencias entre dos líneas con cambios pequeños."""
+        """
+        Formatea los cambios pequeños detectados entre dos líneas.
+
+        Args:
+            original (str): Línea original.
+            modificado (str): Línea modificada.
+            diferencias (list): Diferencias detectadas carácter por carácter.
+
+        Returns:
+            str: Texto formateado que describe los cambios.
+        """
         partes_original = []
         partes_modificado = []
-        
+
         for c1, c2 in diferencias:
-            if c1 is None:  # Caracter nuevo en el modificado
+            if c1 is None:
                 partes_modificado.append(c2)
-            elif c2 is None:  # Caracter eliminado del original
+            elif c2 is None:
                 partes_original.append(c1)
-            elif c1 != c2:  # Caracter cambiado
+            elif c1 != c2:
                 partes_original.append(c1)
                 partes_modificado.append(c2)
 
         texto_original = "".join(partes_original)
         texto_modificado = "".join(partes_modificado)
-        
-        return f"'{original}' -> '{modificado}'"
+
+        return f"'{texto_original}' -> '{texto_modificado}'"
 
     def _formatear_linea(self, linea, etiqueta=None):
         """
-        Divide una línea que exceda los 80 caracteres en segmentos seguros:
-        - Para comentarios (`#`), cada línea dividida comienza con `#`.
-        - Para código, las líneas divididas terminan con diagonal (excepto la última).
+        Formatea una línea, añadiendo etiquetas de cambios si corresponde.
+
+        Args:
+            linea (str): Línea a formatear.
+            etiqueta (str, optional): Etiqueta de cambio asociada a la línea.
+
+        Returns:
+            str: Línea formateada con etiquetas.
         """
         max_len = 80
         es_comentario = linea.strip().startswith("#")
-        
+
         if len(linea) <= max_len:
             return linea if etiqueta is None else f"{linea}  {etiqueta}"
 
         partes = []
         while len(linea) > max_len:
-            # Buscar el último espacio antes del límite
             corte_seguro = linea.rfind(' ', 0, max_len)
-            if corte_seguro == -1:  # Si no hay espacio, forzar corte en el límite
+            if corte_seguro == -1:
                 corte_seguro = max_len
 
-            # Dividir la línea en el punto seguro
             segmento = linea[:corte_seguro].rstrip()
             if es_comentario:
                 partes.append(segmento)
-                linea = f"# {linea[corte_seguro:].lstrip()}"  # Mantener formato de comentario
+                linea = f"# {linea[corte_seguro:].lstrip()}"
             else:
                 if not segmento.endswith(('\\', ',', '(', '[', '{', '+', '-', '*', '/')):
                     segmento += " \\"
                 partes.append(segmento)
                 linea = linea[corte_seguro:].lstrip()
 
-        partes.append(linea)  # Agregar la última parte
+        partes.append(linea)
         resultado = "\n".join(partes)
         return resultado if etiqueta is None else f"{resultado}  {etiqueta}"
 
     def reportar_cambios(self, archivo_original, archivo_modificado):
-        """Escribe comentarios en los archivos originales y modificados."""
+        """
+        Genera un reporte de los cambios y actualiza los archivos originales y modificados.
+
+        Args:
+            archivo_original (str): Ruta del archivo original.
+            archivo_modificado (str): Ruta del archivo modificado.
+        """
         with open(archivo_original, 'r', encoding='utf-8') as archivo:
             lineas_original = [linea.rstrip() for linea in archivo]
 
         with open(archivo_modificado, 'r', encoding='utf-8') as archivo:
             lineas_modificado = [linea.rstrip() for linea in archivo]
 
-        # Etiquetar en el archivo original
         with open(f"{archivo_original}_actualizado.py", 'w', encoding='utf-8') as archivo:
             for linea in lineas_original:
                 etiqueta = None
@@ -155,7 +238,6 @@ class ReportadorCambios:
                     etiqueta = "# Línea modificada (ver archivo modificado)"
                 archivo.write(self._formatear_linea(linea, etiqueta) + "\n")
 
-        # Etiquetar en el archivo modificado
         with open(f"{archivo_modificado}_actualizado.py", 'w', encoding='utf-8') as archivo:
             for linea in lineas_modificado:
                 etiqueta = None
@@ -173,13 +255,28 @@ class ReportadorCambios:
 
 
 class ComparadorArchivos:
-    """Clase principal que gestiona la comparación de archivos."""
+    """
+    Clase principal para gestionar la comparación de archivos y generar reportes.
+
+    Attributes:
+        archivo_original (str): Ruta al archivo original.
+        archivo_modificado (str): Ruta al archivo modificado.
+    """
     def __init__(self, archivo_original, archivo_modificado):
+        """
+        Inicializa la clase con las rutas de los archivos.
+
+        Args:
+            archivo_original (str): Ruta al archivo original.
+            archivo_modificado (str): Ruta al archivo modificado.
+        """
         self.archivo_original = archivo_original
         self.archivo_modificado = archivo_modificado
     
     def comparar_archivos(self):
-        """Realiza la comparación completa de los archivos."""
+        """
+        Compara los archivos, detecta cambios y genera reportes actualizados.
+        """
         lector_original = LectorArchivos(self.archivo_original)
         lector_modificado = LectorArchivos(self.archivo_modificado)
 
@@ -189,7 +286,8 @@ class ComparadorArchivos:
         comparador = ComparadorLineas(lineas_original, lineas_modificado)
         
         (lineas_añadidas, lineas_eliminadas, 
-        lineas_sin_cambios,lineas_con_cambios_pequeños) = comparador.comparar_lineas()
+        lineas_sin_cambios, 
+        lineas_con_cambios_pequeños) = comparador.comparar_lineas()
 
         print(f"Líneas añadidas: {len(lineas_añadidas)}")
         print(f"Líneas eliminadas: {len(lineas_eliminadas)}")
@@ -200,12 +298,12 @@ class ComparadorArchivos:
         reportador.reportar_cambios(self.archivo_original, self.archivo_modificado)
 
 
-# Ejecución del programa con los archivos proporcionados
 if __name__ == "__main__":
-    ruta_archivo_original = "./Caso_4/Movidas_original.py"
-    ruta_archivo_modificado = "./Caso_4/Movidas_Modificado.py"
+    """
+    Punto de entrada principal del programa. Compara dos archivos especificados y genera un reporte.
+    """
+    ruta_archivo_original = "./analizador/Comparador_De_Versiones.py"
+    ruta_archivo_modificado = "./analizador/Comparador_De_Versiones_Copy.py"
 
     comparador = ComparadorArchivos(ruta_archivo_original, ruta_archivo_modificado)
     comparador.comparar_archivos()
-
-
