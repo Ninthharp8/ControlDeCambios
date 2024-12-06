@@ -22,7 +22,8 @@ class AnalizadorEstructural(AnalizadorDeCodigo):
 
     def analizar_clases_y_metodos(self):
         """
-        Analiza el archivo fuente para contar clases, métodos y verificar la estructura POO.
+        Analiza el archivo fuente para contar clases, métodos 
+        y verificar la estructura POO.
         Delegamos el conteo de líneas al AnalizadorDeCodigo.
         """
         comentario_bloque = False
@@ -36,12 +37,14 @@ class AnalizadorEstructural(AnalizadorDeCodigo):
 
                     # Manejo de comentarios en bloque
                     if '"""' in linea_sin_espacios or "'''" in linea_sin_espacios:
-                        if linea_sin_espacios.count('"""') == 2 or linea_sin_espacios.count("'''") == 2:
+                        if linea_sin_espacios.count('"""') == 2 \
+                            or linea_sin_espacios.count("'''") == 2:
                             continue
                         comentario_bloque = not comentario_bloque
                         continue
 
-                    if comentario_bloque or not linea_sin_espacios or linea_sin_espacios.startswith('#'):
+                    if comentario_bloque or not linea_sin_espacios \
+                        or linea_sin_espacios.startswith('#'):
                         continue
 
                     # Detección de clases
@@ -63,7 +66,8 @@ class AnalizadorEstructural(AnalizadorDeCodigo):
 
                     # Detección de código fuera de clases
                     if not clase_actual:
-                        if not any(linea_sin_espacios.startswith(palabra) for palabra in ['import', 'from', 'class', 'def']):
+                        if not any(linea_sin_espacios.startswith(palabra) \
+                                for palabra in ['import', 'from', 'class', 'def']):
                             self.codigo_fuera_clases.append(linea_sin_espacios)
 
                     # Sumar líneas a la clase actual si existe
@@ -108,11 +112,13 @@ class AnalizadorEstructural(AnalizadorDeCodigo):
         Si no lo cumple, muestra un mensaje y sale del programa.
         """
         if self.metodos_fuera_clases or self.codigo_fuera_clases:
-            print("\nERROR: El archivo **NO** sigue estrictamente el paradigma POO.")
+            print("\nERROR: El archivo **NO** sigue "\
+                  "estrictamente el paradigma POO.")
             print("El programa se cerrara despues de este mensaje")
             print("Causas detectadas:")
             if self.metodos_fuera_clases:
-                print(f"  - Métodos fuera de clases: {', '.join(self.metodos_fuera_clases)}")
+                print(f"  - Métodos fuera de clases: \
+                      {', '.join(self.metodos_fuera_clases)}")
             if self.codigo_fuera_clases:
                 print("  - Código ejecutable fuera de clases:")
                 for linea in self.codigo_fuera_clases:
