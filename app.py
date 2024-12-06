@@ -9,6 +9,7 @@ Descripción:
 """
 
 import os
+import time
 from Analizador_De_Clases_Y_metodos import AnalizadorEstructural
 from Comparador_De_Versiones import ComparadorArchivos  
 
@@ -102,6 +103,7 @@ class App:
             continuar = input("\n¿Deseas analizar más archivos? (si/no): ").strip().lower()
             if continuar != 'si':
                 print("\nGracias por usar el Analizador de Código. ¡Hasta luego!")
+                time.sleep(5)
                 break
 
 

@@ -1,4 +1,5 @@
 import sys
+import time
 from Analizador_De_Codigo import AnalizadorDeCodigo  
 
 class AnalizadorEstructural(AnalizadorDeCodigo):
@@ -75,12 +76,15 @@ class AnalizadorEstructural(AnalizadorDeCodigo):
 
         except FileNotFoundError as e:
             print(f"Archivo no encontrado: {e}")
+            time.sleep(10)
             sys.exit(1)
         except IOError as e:
             print(f"Error de E/S: {e}")
+            time.sleep(10)
             sys.exit(1)
         except UnicodeDecodeError as e:
             print(f"Error de codificación: {e}")
+            time.sleep(10)
             sys.exit(1)
     
     def obtener_resultados(self):
@@ -105,6 +109,7 @@ class AnalizadorEstructural(AnalizadorDeCodigo):
         """
         if self.metodos_fuera_clases or self.codigo_fuera_clases:
             print("\nERROR: El archivo **NO** sigue estrictamente el paradigma POO.")
+            print("El programa se cerrara despues de este mensaje")
             print("Causas detectadas:")
             if self.metodos_fuera_clases:
                 print(f"  - Métodos fuera de clases: {', '.join(self.metodos_fuera_clases)}")
@@ -112,6 +117,7 @@ class AnalizadorEstructural(AnalizadorDeCodigo):
                 print("  - Código ejecutable fuera de clases:")
                 for linea in self.codigo_fuera_clases:
                     print(f"    {linea}")
+            time.sleep(15)
             sys.exit(1)
 
     def informe(self):
