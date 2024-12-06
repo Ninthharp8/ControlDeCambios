@@ -1,9 +1,24 @@
 """
-Analizador de líneas de código en Python.
+Módulo: Analizador de líneas de código
 
-Este módulo analiza un archivo fuente en Python y cuenta:
-- Líneas físicas: excluye comentarios y líneas en blanco.
-- Líneas lógicas: bloques lógicos como clases, funciones, etc.
+Este módulo proporciona una herramienta para analizar un archivo fuente en 
+Python y contar las líneas de código en dos categorías:
+- Líneas físicas: cuenta las líneas de código, excluyendo comentarios y 
+  líneas en blanco.
+- Líneas lógicas: cuenta los bloques lógicos, como clases, funciones, bucles,
+  condicionales, etc.
+
+La clase `AnalizadorDeCodigo` procesa el archivo línea por línea, identifica 
+los comentarios, las líneas en blanco y los bloques lógicos, y calcula los 
+totales correspondientes. Además, maneja errores de archivo y codificación.
+
+Funciones principales:
+- `AnalizadorDeCodigo`: Clase encargada del análisis de líneas físicas y lógicas
+   en archivos Python.
+- `analizar_archivo`: Procesa el archivo fuente y cuenta las líneas físicas y 
+   lógicas.
+- `informe`: Muestra un resumen del análisis con el conteo de líneas lógicas y 
+   físicas.
 """
 
 class AnalizadorDeCodigo:
@@ -28,8 +43,10 @@ class AnalizadorDeCodigo:
         self.lineas_logicas = 0
         self.palabras_clave_logicas = ['if', 'for', 'while', 
                                        'def', 'class', 'try', 'with']
-        self.error = False  # Indicador de error
-        self.error_mensaje = ""  # Mensaje de error
+        # Indicador de error
+        self.error = False  
+        # Mensaje de error
+        self.error_mensaje = ""  
 
     def analizar_archivo(self):
         """

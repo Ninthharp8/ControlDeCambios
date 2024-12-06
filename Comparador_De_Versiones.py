@@ -1,3 +1,34 @@
+"""
+Módulo : Comparador De versiones
+
+Este modulo implementa la soluciopa para leer dos archivos de python y comparar
+ambos archivos  de texto  para identificar y señalar  las lineas que han sido 
+modificadas,  añadidas,  eliminadas,  cambiadas y  generar además de formatear 
+aquellas lineas  que sobrepasan  los 80 carcateres para por ultimo generar dos 
+archivos nuevos con ambas versiones del codigo pero formateados y etiquetados 
+con los cambios en las lineas detectados. 
+
+
+Este módulo contiene varias clases para leer archivos, comparar líneas entre 
+archivos y detectar cambios,  incluyendo  diferencias  menores  entre líneas. 
+Los cambios detectados se categorizan  en  líneas  añadidas, eliminadas, sin 
+cambios y con cambios pequeños. Posteriormente, se generan reportes con los 
+resultados de la comparación, donde se etiquetan las líneas modificadas.
+
+Clases:
+    - LectorArchivos: Lee las líneas de un archivo omitiendo las vacías.
+    - ComparadorLineas: Compara las líneas de dos archivos y detecta cambios.
+    - ReportadorCambios: Genera un reporte con los cambios detectados entre dos
+      archivos.
+    - ComparadorArchivos: Gestiona la comparación de dos archivos y la 
+      generación de reportes.
+
+Uso:
+    Se puede utilizar el módulo para comparar dos archivos de texto, detectar 
+    las diferencias y generar reportes con las líneas modificadas, añadidas o 
+    eliminadas, así como los detalles de cambios pequeños.
+"""
+
 class LectorArchivos:
     """
     Clase para leer las líneas de un archivo omitiendo aquellas que están vacías.

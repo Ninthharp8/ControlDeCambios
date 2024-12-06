@@ -1,11 +1,31 @@
 """
-Programa: Sistema comparador de versiones
+Programa: Sistema Comparador de Versiones
 Autor: Equipo 6
-Fecha: 20 de noviembre del 2024
+Fecha: 20 de noviembre de 2024
+
 Descripción:
-    Este programa solicita al usuario el nombre de dos archivos ( la version previa y nueva) para comparar sus versiones,
-    contar sus clases, metodos, lineas dentro de clases y total de LOCS fisicas y logicas.
-    Proporciona un informe con todos los resultados.
+    Esta aplicación permite comparar dos versiones de archivos Python, analizando
+    su estructura para obtener  información  sobre  las  clases,  métodos, líneas 
+    dentro de las clases, y  el  total  de líneas de código físicas y lógicas. El
+    programa genera un informe detallado  con los resultados de las comparaciones 
+    y análisis de ambos archivos remarcando las lineas añadidas, eliminadas, 
+    movidas y con cambios en 2 archivos nuevos formateados a 80 caracteres por linea.
+    
+    Funcionalidades:
+    - Solicita al usuario los nombres de dos archivos Python para ser comparados.
+    - Verifica la validez de los archivos (existencia y extensión `.py`).
+    - Analiza la estructura de las clases y métodos de los archivos usando la 
+      clase `AnalizadorEstructural`.
+    - Compara las diferencias entre las versiones de los archivos a través de la 
+      clase `ComparadorArchivos`.
+    - Genera informes detallados con los resultados de los análisis y la 
+      comparación de los archivos.
+    
+    Requisitos:
+    - Los archivos a analizar deben estar ubicados en la carpeta 'analizador'.
+    - Se deben proporcionar exactamente dos archivos para continuar con el 
+      análisis.
+
 """
 
 import os

@@ -1,3 +1,30 @@
+"""
+Módulo: Analizador de clases y métodos
+
+Este módulo proporciona una herramienta para analizar un archivo fuente Python
+con  el  fin  de  contar  y  clasificar las clases y métodos dentro del código. 
+Además, verifica  si  el  código sigue el paradigma de Programación Orientada a 
+Objetos (POO) de manera estricta. 
+ 
+El análisis incluye:
+- Contar las clases y los métodos presentes en el archivo.
+- Verificar la presencia de  métodos fuera  de las clases o código ejecutable
+  fuera de las mismas, lo que indicaría que el archivo no sigue completamente 
+  el paradigma POO.
+- Contar las líneas físicas (excluyendo comentarios y líneas en blanco) y las 
+  líneas lógicas  (incluyendo  bloques  lógicos como  clases  y  métodos).
+  
+El módulo utiliza una clase `AnalizadorDeCodigo` que hereda del modulo 
+`Analizador_De_Codigo` para delegar parte del análisis del código, como el 
+conteo de las líneas físicas y lógicas.
+
+Funciones principales:
+- `AnalizadorEstructural`:  Clase  que  gestiona  el  análisis de archivos Python.
+- `analizar_clases_y_metodos`: Analiza y cuenta las clases y métodos en el archivo.
+- `obtener_resultados`:  Devuelve u n diccionario  con los resultados del análisis.
+- `verificar_poo`: Verifica si el código cumple con el paradigma POO.
+- `informe`: Genera un informe detallado sobre el análisis del archivo.
+"""
 import sys
 import time
 from Analizador_De_Codigo import AnalizadorDeCodigo  
@@ -36,7 +63,8 @@ class AnalizadorEstructural(AnalizadorDeCodigo):
                     linea_sin_espacios = linea.strip()
 
                     # Manejo de comentarios en bloque
-                    if '"""' in linea_sin_espacios or "'''" in linea_sin_espacios:
+                    if '"""' in linea_sin_espacios or "'''" \
+                        in linea_sin_espacios:
                         if linea_sin_espacios.count('"""') == 2 \
                             or linea_sin_espacios.count("'''") == 2:
                             continue
@@ -49,7 +77,8 @@ class AnalizadorEstructural(AnalizadorDeCodigo):
 
                     # Detección de clases
                     if linea_sin_espacios.startswith('class '):
-                        clase_actual = linea_sin_espacios.split()[1].split('(')[0]
+                        clase_actual = \
+                            linea_sin_espacios.split()[1].split('(')[0]
                         self.clases[clase_actual] = {'lineas': 0, 'metodos': 0}
                         indentacion_clase = len(linea) - len(linea.lstrip())
                         continue
@@ -59,7 +88,8 @@ class AnalizadorEstructural(AnalizadorDeCodigo):
                         metodo = linea_sin_espacios.split()[1].split('(')[0]
                         indentacion_metodo = len(linea) - len(linea.lstrip())
 
-                        if clase_actual and indentacion_metodo > indentacion_clase:
+                        if clase_actual and indentacion_metodo > \
+                            indentacion_clase:
                             self.clases[clase_actual]['metodos'] += 1
                         else:
                             self.metodos_fuera_clases.append(metodo)
@@ -67,7 +97,8 @@ class AnalizadorEstructural(AnalizadorDeCodigo):
                     # Detección de código fuera de clases
                     if not clase_actual:
                         if not any(linea_sin_espacios.startswith(palabra) \
-                                for palabra in ['import', 'from', 'class', 'def']):
+                                for palabra in ['import', 
+                                                'from', 'class', 'def']):
                             self.codigo_fuera_clases.append(linea_sin_espacios)
 
                     # Sumar líneas a la clase actual si existe
@@ -135,14 +166,17 @@ class AnalizadorEstructural(AnalizadorDeCodigo):
         print(f"{'Clases ':<30} | {'Métodos':<11} | {'Líneas':<11}")
         print("-" * 60)
         for clase, datos in resultados["clases"].items():
-            print(f"{clase:<30} | {datos['metodos']:<11} | {datos['lineas']:<11}")
+            print(f"{clase:<30} | {datos['metodos']:<11} | {\
+                datos['lineas']:<11}")
         print("-" * 60)
-        print(f"{'Total líneas físicas':<30} | {resultados['lineas_fisicas']:<11}")
-        print(f"{'Total líneas lógicas':<30} | {resultados['lineas_logicas']:<11}")
+        print(f"{'Total líneas físicas':<30} | {\
+            resultados['lineas_fisicas']:<11}")
+        print(f"{'Total líneas lógicas':<30} | {\
+            resultados['lineas_logicas']:<11}")
         print(f"{'Total de clases':<30} | {resultados['total_clases']:<11}")
 
 
 if __name__ == "__main__":
-    ruta_del_archivo = './Test/test_archivo_integral.py'
+    ruta_del_archivo = './analizador/test_clase_declaraciones.py'
     analizador = AnalizadorEstructural(ruta_del_archivo)
     analizador.informe()        
