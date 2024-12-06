@@ -3,7 +3,8 @@ Ejemplo de un codigo con mas de 80 caracteres en la linea, se debe formatear tan
 """
 class formato():
 
-    # Este es un ejemplo de código que tiene líneas muy largas para probar el formato.
+    # Este es un ejemplo de código que tiene líneas muy largas para probar el formato de lineas a 80 caracteres, deberans ser formateadasen lineas nuevas
+ 
     def calcular_area_rectangulo_ancho_multiplicado_por_un_factor(base, altura, factor):
         return (base * altura) *factor
     

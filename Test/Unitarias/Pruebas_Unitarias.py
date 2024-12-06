@@ -18,7 +18,10 @@ class TestComparadorArchivos:
         self.test_caso2_linea_añadida()
         self.test_caso3_linea_borrada()
         self.test_caso4_linea_movida()
-        self.test_formato_80_caracteres()
+        self.test_formato_80_caracteres_comentarios()
+        self.test_formato_80_caracteres_lineas_codigo()
+        self.test_formato_80_caracteres_archivo_con_comentarios_y_codigo()
+
         
     def assertEqual(self, valor_obtenido, valor_esperado, mensaje):
         """
@@ -138,24 +141,65 @@ class TestComparadorArchivos:
             }
         )
     
-    def test_formato_80_caracteres(self):
+    def test_formato_80_caracteres_comentarios(self):
         """
-        Prueba que todos los archivos no excedan los 80 caracteres por línea.
+        Prueba que todos los comentarios no excedan los 80 caracteres 
+        por línea.
         """
-        print("prueba para verificar que se formatea el codigo y "
-              "se cuentan todos los casos anteriores ")
+        print("prueba para verificar que se formatea  los comentarios ")
         
-        ruta_original = "./Caso_6/Formateo_Original.py"
-        ruta_modificado="./Caso_6/Formateo_Modificado.py"
+        ruta_original = "./Caso_6/Formateo_Comentarios.py"
+        ruta_modificado="./Caso_6/archivo_vacio.py"
        
         self.probar_comparacion(
             ruta_original,
             ruta_modificado,
             resultados_esperados={
-                'añadidas': 2,
-                'eliminadas': 2,
-                'sin_cambios': 8,
-                'cambios_pequeños': 1
+                'añadidas': 0,
+                'eliminadas': 4,
+                'sin_cambios': 0,
+                'cambios_pequeños': 0
+            }
+        )
+    def test_formato_80_caracteres_lineas_codigo(self):
+        """
+        Prueba que todos las lineas de codigo no excedan los 80 
+        caracteres por línea.
+        """
+        print("prueba para verificar que se formatea el codigo ")
+        
+        ruta_original = "./Caso_6/Formateo_Codigo.py"
+        ruta_modificado="./Caso_6/archivo_vacio.py"
+       
+        self.probar_comparacion(
+            ruta_original,
+            ruta_modificado,
+            resultados_esperados={
+                'añadidas': 0,
+                'eliminadas': 7,
+                'sin_cambios': 0,
+                'cambios_pequeños': 0
+            }
+        )
+    def test_formato_80_caracteres_archivo_con_comentarios_y_codigo(self):
+        """
+        Prueba que todos los archivos con comentarios y codigo no excedan
+        los 80 caracteres por linea.
+        """
+        print("prueba para verificar que se formatea el codigo y "
+              "comentarios ")
+        
+        ruta_original = "./Caso_6/Formateo_Combinado.py"
+        ruta_modificado="./Caso_6/archivo_vacio.py"
+       
+        self.probar_comparacion(
+            ruta_original,
+            ruta_modificado,
+            resultados_esperados={
+                'añadidas': 0,
+                'eliminadas': 11,
+                'sin_cambios': 0,
+                'cambios_pequeños': 0
             }
         )
 

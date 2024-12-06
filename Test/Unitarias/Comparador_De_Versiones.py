@@ -202,8 +202,8 @@ class ComparadorArchivos:
 
 # Ejecución del programa con los archivos proporcionados
 if __name__ == "__main__":
-    ruta_archivo_original = "./Caso_6/Formateo_Original.py"
-    ruta_archivo_modificado = "./Caso_6/Formateo_Modificado.py"
+    ruta_archivo_original = "./Caso_6/Formateo_Combinado.py"
+    ruta_archivo_modificado = "./Caso_6/archivo_vacio.py"
 
     comparador = ComparadorArchivos(ruta_archivo_original, ruta_archivo_modificado)
     comparador.comparar_archivos()
