@@ -122,7 +122,7 @@ class App:
 
             continuar = input("\n¿Deseas analizar más archivos? (si/no): ").strip().lower()
             if continuar != 'si':
-                print("\nGracias por usar el Analizador de Código. ¡Hasta luego!")
+                print("\nGracias por usar el Comparador de versiones. ¡Hasta luego!")
                 time.sleep(5)
                 break
 

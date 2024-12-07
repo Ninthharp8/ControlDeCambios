@@ -53,7 +53,7 @@ class App:
         """
         Muestra el mensaje de bienvenida al usuario.
         """
-        print("\nBienvenido al Comparador de versiones de 2 archivos .\n")
+        print("\nBienvenido al Analizador de Clases y Métodos.\n")
         print("Por favor, asegúrate de que los archivos a analizar se encuentren en la carpeta 'analizador'.")
         print("Escribe los nombres de los archivos a analizar, separados por comas.")
         print("Ejemplo: Archivo_ABC.py, Archivo_XYZ.py\n")
@@ -75,8 +75,7 @@ class App:
     def analizar_archivos(self, archivo1, archivo2):
         """
         Analiza los archivos con la clase `AnalizadorEstructural`.
-        Si ambos archivos son válidos, procede a compararlos. y 
-        desplegar los resultados
+        Si ambos archivos son válidos, procede a compararlos.
         """
         file_path1 = os.path.join(self.carpeta, archivo1)
         file_path2 = os.path.join(self.carpeta, archivo2)
@@ -123,7 +122,7 @@ class App:
 
             continuar = input("\n¿Deseas analizar más archivos? (si/no): ").strip().lower()
             if continuar != 'si':
-                print("\nGracias por usar el Comparador de versiones. ¡Hasta luego!")
+                print("\nGracias por usar el Analizador de Código. ¡Hasta luego!")
                 time.sleep(5)
                 break
 
